@@ -2,7 +2,8 @@
 # Copyright (c) 2019-2023 The Regents of the University of California
 
 # FPGA settings
-FPGA_PART = xcu250-figd2104-2-e
+#FPGA_PART = xcu250-figd2104-2-e
+FPGA_PART = xcvu13p-fhgb2104-2L-e
 FPGA_TOP = fpga
 FPGA_ARCH = virtexuplus
 
@@ -115,10 +116,18 @@ SYN_FILES += lib/pcie/rtl/pcie_us_cfg.v
 SYN_FILES += lib/pcie/rtl/pulse_merge.v
 
 # XDC files
-XDC_FILES = fpga.xdc
+# add by xiaohc
+#XDC_FILES = fpga.xdc
+XDC_FILES  = boot.xdc
+XDC_FILES += vu13pxdc/vu13p_pcie.xdc
+XDC_FILES += vu13pxdc/vu13p_qsfp_gt.xdc
+XDC_FILES += vu13pxdc/fpga_vu13p.xdc
+XDC_FILES += vu13pxdc/ddr4_64/ddr4_c0.xdc
+XDC_FILES += vu13pxdc/ddr4_64/ddr4_c1.xdc
+XDC_FILES += vu13pxdc/ddr4_64/ddr4_c2.xdc
+XDC_FILES += vu13pxdc/ddr4_64/ddr4_c3.xdc
 XDC_FILES += placement.xdc
 XDC_FILES += cfgmclk.xdc
-XDC_FILES += boot.xdc
 XDC_FILES += lib/axi/syn/vivado/axil_cdc.tcl
 XDC_FILES += lib/axis/syn/vivado/axis_async_fifo.tcl
 XDC_FILES += lib/axis/syn/vivado/sync_reset.tcl
@@ -130,11 +139,13 @@ XDC_FILES += ../../../common/syn/vivado/rb_drp.tcl
 XDC_FILES += ../../../common/syn/vivado/cmac_gty_wrapper.tcl
 XDC_FILES += ../../../common/syn/vivado/cmac_gty_ch_wrapper.tcl
 
+
+
+
 # IP
 IP_TCL_FILES = ip/pcie4_uscale_plus_0.tcl
 IP_TCL_FILES += ip/cmac_usplus.tcl
 IP_TCL_FILES += ip/cmac_gty.tcl
-IP_TCL_FILES += ip/cms.tcl
 #IP_TCL_FILES += ip/ddr4_0.tcl
 
 # Configuration
