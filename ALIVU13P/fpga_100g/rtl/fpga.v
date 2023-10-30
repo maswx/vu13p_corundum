@@ -139,162 +139,183 @@ module fpga #
     /*
      * Clock and reset
      */
-    input  wire         clk_300mhz_0_p,
-    input  wire         clk_300mhz_0_n,
-    input  wire         clk_300mhz_1_p,
-    input  wire         clk_300mhz_1_n,
-    input  wire         clk_300mhz_2_p,
-    input  wire         clk_300mhz_2_n,
-    input  wire         clk_300mhz_3_p,
-    input  wire         clk_300mhz_3_n,
+    input  wire         c0_ddr4_clk_clk_p ,
+    input  wire         c0_ddr4_clk_clk_n ,
+    input  wire         c1_ddr4_clk_clk_p ,
+    input  wire         c1_ddr4_clk_clk_n ,
+    input  wire         c2_ddr4_clk_clk_p ,
+    input  wire         c2_ddr4_clk_clk_n ,
+    input  wire         c3_ddr4_clk_clk_p ,
+    input  wire         c3_ddr4_clk_clk_n ,
 
     /*
      * GPIO
      */
-    input  wire [3:0]   sw,
-    output wire [2:0]   led,
-    input  wire [3:0]   msp_gpio,
-    output wire         msp_uart_txd,
-    input  wire         msp_uart_rxd,
+	output wire [1:0] qsfp_led_y,
+	output wire [1:0] qsfp_led_g,
 
     /*
      * I2C for board management
      */
-    inout  wire         i2c_scl,
-    inout  wire         i2c_sda,
+    inout  wire         dn_qsfp_i2c_sda,
+    inout  wire         dn_qsfp_i2c_scl,
 
     /*
      * PCI express
      */
-    input  wire [15:0]  pcie_rx_p,
-    input  wire [15:0]  pcie_rx_n,
-    output wire [15:0]  pcie_tx_p,
-    output wire [15:0]  pcie_tx_n,
-    input  wire         pcie_refclk_p,
-    input  wire         pcie_refclk_n,
-    input  wire         pcie_reset_n,
+    input  wire [15:0]  pcie_lane_rxp,
+    input  wire [15:0]  pcie_lane_rxn,
+    output wire [15:0]  pcie_lane_txp,
+    output wire [15:0]  pcie_lane_txn,
+    input  wire         pcie_ref_clk_p,
+    input  wire         pcie_ref_clk_n,
+    input  wire         pcie_perst    ,
+	output wire         pcie_lnk_up   ,
 
     /*
      * Ethernet: QSFP28
      */
-    output wire         qsfp0_tx1_p,
-    output wire         qsfp0_tx1_n,
-    input  wire         qsfp0_rx1_p,
-    input  wire         qsfp0_rx1_n,
-    output wire         qsfp0_tx2_p,
-    output wire         qsfp0_tx2_n,
-    input  wire         qsfp0_rx2_p,
-    input  wire         qsfp0_rx2_n,
-    output wire         qsfp0_tx3_p,
-    output wire         qsfp0_tx3_n,
-    input  wire         qsfp0_rx3_p,
-    input  wire         qsfp0_rx3_n,
-    output wire         qsfp0_tx4_p,
-    output wire         qsfp0_tx4_n,
-    input  wire         qsfp0_rx4_p,
-    input  wire         qsfp0_rx4_n,
-    // input  wire         qsfp0_mgt_refclk_0_p,
-    // input  wire         qsfp0_mgt_refclk_0_n,
-    input  wire         qsfp0_mgt_refclk_1_p,
-    input  wire         qsfp0_mgt_refclk_1_n,
-    output wire         qsfp0_modsell,
-    output wire         qsfp0_resetl,
-    input  wire         qsfp0_modprsl,
-    input  wire         qsfp0_intl,
-    output wire         qsfp0_lpmode,
-    output wire         qsfp0_refclk_reset,
-    output wire [1:0]   qsfp0_fs,
+    output wire  [3:0]       up_qsfp_txp,
+    output wire  [3:0]       up_qsfp_txn,
+    input  wire  [3:0]       up_qsfp_rxp,
+    input  wire  [3:0]       up_qsfp_rxn,
+    input  wire         up_qsfp_161p132_clk_p ,
+    input  wire         up_qsfp_161p132_clk_n ,
+    input  wire         up_qsfp_modprsl,
+    input  wire         up_qsfp_intl,
 
-    output wire         qsfp1_tx1_p,
-    output wire         qsfp1_tx1_n,
-    input  wire         qsfp1_rx1_p,
-    input  wire         qsfp1_rx1_n,
-    output wire         qsfp1_tx2_p,
-    output wire         qsfp1_tx2_n,
-    input  wire         qsfp1_rx2_p,
-    input  wire         qsfp1_rx2_n,
-    output wire         qsfp1_tx3_p,
-    output wire         qsfp1_tx3_n,
-    input  wire         qsfp1_rx3_p,
-    input  wire         qsfp1_rx3_n,
-    output wire         qsfp1_tx4_p,
-    output wire         qsfp1_tx4_n,
-    input  wire         qsfp1_rx4_p,
-    input  wire         qsfp1_rx4_n,
-    // input  wire         qsfp1_mgt_refclk_0_p,
-    // input  wire         qsfp1_mgt_refclk_0_n,
-    input  wire         qsfp1_mgt_refclk_1_p,
-    input  wire         qsfp1_mgt_refclk_1_n,
-    output wire         qsfp1_modsell,
-    output wire         qsfp1_resetl,
-    input  wire         qsfp1_modprsl,
-    input  wire         qsfp1_intl,
-    output wire         qsfp1_lpmode,
-    output wire         qsfp1_refclk_reset,
-    output wire [1:0]   qsfp1_fs,
+
+    output wire  [3:0]       dn_qsfp_txp,
+    output wire  [3:0]       dn_qsfp_txn,
+    input  wire  [3:0]       dn_qsfp_rxp,
+    input  wire  [3:0]       dn_qsfp_rxn,
+    input  wire         dn_qsfp_161p132_clk_p ,
+    input  wire         dn_qsfp_161p132_clk_n ,
+    input  wire         dn_qsfp_modprsl,
+    input  wire         dn_qsfp_intl,
 
     /*
      * DDR4
      */
-    output wire [16:0]  ddr4_c0_adr,
-    output wire [1:0]   ddr4_c0_ba,
-    output wire [1:0]   ddr4_c0_bg,
-    output wire [0:0]   ddr4_c0_ck_t,
-    output wire [0:0]   ddr4_c0_ck_c,
-    output wire [0:0]   ddr4_c0_cke,
-    output wire [0:0]   ddr4_c0_cs_n,
-    output wire         ddr4_c0_act_n,
-    output wire [0:0]   ddr4_c0_odt,
-    output wire         ddr4_c0_par,
-    output wire         ddr4_c0_reset_n,
-    inout  wire [71:0]  ddr4_c0_dq,
-    inout  wire [17:0]  ddr4_c0_dqs_t,
-    inout  wire [17:0]  ddr4_c0_dqs_c,
+    output wire [16 : 0] c0_ddr4_adr        ,
+    output wire [ 1 : 0] c0_ddr4_ba         ,
+    output wire [ 0 : 0] c0_ddr4_cke        ,
+    output wire [ 0 : 0] c0_ddr4_cs_n       ,
+    inout  wire [ 7 : 0] c0_ddr4_dm_n       ,//
+    inout  wire [63 : 0] c0_ddr4_dq         ,
+    inout  wire [ 7 : 0] c0_ddr4_dqs_c      ,
+    inout  wire [ 7 : 0] c0_ddr4_dqs_t      ,
+    output wire [ 0 : 0] c0_ddr4_odt        ,
+    output wire [ 0 : 0] c0_ddr4_bg         ,
+    output wire          c0_ddr4_reset_n    ,
+    output wire          c0_ddr4_act_n      ,
+    output wire [0  : 0] c0_ddr4_ck_c       ,
+    output wire [0  : 0] c0_ddr4_ck_t       ,
 
-    output wire [16:0]  ddr4_c1_adr,
-    output wire [1:0]   ddr4_c1_ba,
-    output wire [1:0]   ddr4_c1_bg,
-    output wire [0:0]   ddr4_c1_ck_t,
-    output wire [0:0]   ddr4_c1_ck_c,
-    output wire [0:0]   ddr4_c1_cke,
-    output wire [0:0]   ddr4_c1_cs_n,
-    output wire         ddr4_c1_act_n,
-    output wire [0:0]   ddr4_c1_odt,
-    output wire         ddr4_c1_par,
-    output wire         ddr4_c1_reset_n,
-    inout  wire [71:0]  ddr4_c1_dq,
-    inout  wire [17:0]  ddr4_c1_dqs_t,
-    inout  wire [17:0]  ddr4_c1_dqs_c,
+    output wire [16 : 0] c1_ddr4_adr        ,
+    output wire [ 1 : 0] c1_ddr4_ba         ,
+    output wire [ 0 : 0] c1_ddr4_cke        ,
+    output wire [ 0 : 0] c1_ddr4_cs_n       ,
+    inout  wire [ 7 : 0] c1_ddr4_dm_n       ,//
+    inout  wire [63 : 0] c1_ddr4_dq         ,
+    inout  wire [ 7 : 0] c1_ddr4_dqs_c      ,
+    inout  wire [ 7 : 0] c1_ddr4_dqs_t      ,
+    output wire [ 0 : 0] c1_ddr4_odt        ,
+    output wire [ 0 : 0] c1_ddr4_bg         ,
+    output wire          c1_ddr4_reset_n    ,
+    output wire          c1_ddr4_act_n      ,
+    output wire [0  : 0] c1_ddr4_ck_c       ,
+    output wire [0  : 0] c1_ddr4_ck_t       ,
 
-    output wire [16:0]  ddr4_c2_adr,
-    output wire [1:0]   ddr4_c2_ba,
-    output wire [1:0]   ddr4_c2_bg,
-    output wire [0:0]   ddr4_c2_ck_t,
-    output wire [0:0]   ddr4_c2_ck_c,
-    output wire [0:0]   ddr4_c2_cke,
-    output wire [0:0]   ddr4_c2_cs_n,
-    output wire         ddr4_c2_act_n,
-    output wire [0:0]   ddr4_c2_odt,
-    output wire         ddr4_c2_par,
-    output wire         ddr4_c2_reset_n,
-    inout  wire [71:0]  ddr4_c2_dq,
-    inout  wire [17:0]  ddr4_c2_dqs_t,
-    inout  wire [17:0]  ddr4_c2_dqs_c,
+    output wire [16 : 0] c2_ddr4_adr        ,
+    output wire [ 1 : 0] c2_ddr4_ba         ,
+    output wire [ 0 : 0] c2_ddr4_cke        ,
+    output wire [ 0 : 0] c2_ddr4_cs_n       ,
+    inout  wire [ 7 : 0] c2_ddr4_dm_n       ,//
+    inout  wire [63 : 0] c2_ddr4_dq         ,
+    inout  wire [ 7 : 0] c2_ddr4_dqs_c      ,
+    inout  wire [ 7 : 0] c2_ddr4_dqs_t      ,
+    output wire [ 0 : 0] c2_ddr4_odt        ,
+    output wire [ 0 : 0] c2_ddr4_bg         ,
+    output wire          c2_ddr4_reset_n    ,
+    output wire          c2_ddr4_act_n      ,
+    output wire [0  : 0] c2_ddr4_ck_c       ,
+    output wire [0  : 0] c2_ddr4_ck_t       ,
 
-    output wire [16:0]  ddr4_c3_adr,
-    output wire [1:0]   ddr4_c3_ba,
-    output wire [1:0]   ddr4_c3_bg,
-    output wire [0:0]   ddr4_c3_ck_t,
-    output wire [0:0]   ddr4_c3_ck_c,
-    output wire [0:0]   ddr4_c3_cke,
-    output wire [0:0]   ddr4_c3_cs_n,
-    output wire         ddr4_c3_act_n,
-    output wire [0:0]   ddr4_c3_odt,
-    output wire         ddr4_c3_par,
-    output wire         ddr4_c3_reset_n,
-    inout  wire [71:0]  ddr4_c3_dq,
-    inout  wire [17:0]  ddr4_c3_dqs_t,
-    inout  wire [17:0]  ddr4_c3_dqs_c
+    output wire [16 : 0] c3_ddr4_adr        ,
+    output wire [ 1 : 0] c3_ddr4_ba         ,
+    output wire [ 0 : 0] c3_ddr4_cke        ,
+    output wire [ 0 : 0] c3_ddr4_cs_n       ,
+    inout  wire [ 7 : 0] c3_ddr4_dm_n       ,//
+    inout  wire [63 : 0] c3_ddr4_dq         ,
+    inout  wire [ 7 : 0] c3_ddr4_dqs_c      ,
+    inout  wire [ 7 : 0] c3_ddr4_dqs_t      ,
+    output wire [ 0 : 0] c3_ddr4_odt        ,
+    output wire [ 0 : 0] c3_ddr4_bg         ,
+    output wire          c3_ddr4_reset_n    ,
+    output wire          c3_ddr4_act_n      ,
+    output wire [0  : 0] c3_ddr4_ck_c       ,
+    output wire [0  : 0] c3_ddr4_ck_t       
+
+   //-- output wire [16:0]  ddr4_c0_adr,
+   //-- output wire [1:0]   ddr4_c0_ba,
+   //-- output wire [1:0]   ddr4_c0_bg,
+   //-- output wire [0:0]   ddr4_c0_ck_t,
+   //-- output wire [0:0]   ddr4_c0_ck_c,
+   //-- output wire [0:0]   ddr4_c0_cke,
+   //-- output wire [0:0]   ddr4_c0_cs_n,
+   //-- output wire         ddr4_c0_act_n,
+   //-- output wire [0:0]   ddr4_c0_odt,
+   //-- output wire         ddr4_c0_par,
+   //-- output wire         ddr4_c0_reset_n,
+   //-- inout  wire [71:0]  ddr4_c0_dq,
+   //-- inout  wire [17:0]  ddr4_c0_dqs_t,
+   //-- inout  wire [17:0]  ddr4_c0_dqs_c,
+
+   //-- output wire [16:0]  ddr4_c1_adr,
+   //-- output wire [1:0]   ddr4_c1_ba,
+   //-- output wire [1:0]   ddr4_c1_bg,
+   //-- output wire [0:0]   ddr4_c1_ck_t,
+   //-- output wire [0:0]   ddr4_c1_ck_c,
+   //-- output wire [0:0]   ddr4_c1_cke,
+   //-- output wire [0:0]   ddr4_c1_cs_n,
+   //-- output wire         ddr4_c1_act_n,
+   //-- output wire [0:0]   ddr4_c1_odt,
+   //-- output wire         ddr4_c1_par,
+   //-- output wire         ddr4_c1_reset_n,
+   //-- inout  wire [71:0]  ddr4_c1_dq,
+   //-- inout  wire [17:0]  ddr4_c1_dqs_t,
+   //-- inout  wire [17:0]  ddr4_c1_dqs_c,
+
+   //-- output wire [16:0]  ddr4_c2_adr,
+   //-- output wire [1:0]   ddr4_c2_ba,
+   //-- output wire [1:0]   ddr4_c2_bg,
+   //-- output wire [0:0]   ddr4_c2_ck_t,
+   //-- output wire [0:0]   ddr4_c2_ck_c,
+   //-- output wire [0:0]   ddr4_c2_cke,
+   //-- output wire [0:0]   ddr4_c2_cs_n,
+   //-- output wire         ddr4_c2_act_n,
+   //-- output wire [0:0]   ddr4_c2_odt,
+   //-- output wire         ddr4_c2_par,
+   //-- output wire         ddr4_c2_reset_n,
+   //-- inout  wire [71:0]  ddr4_c2_dq,
+   //-- inout  wire [17:0]  ddr4_c2_dqs_t,
+   //-- inout  wire [17:0]  ddr4_c2_dqs_c,
+
+   //-- output wire [16:0]  ddr4_c3_adr,
+   //-- output wire [1:0]   ddr4_c3_ba,
+   //-- output wire [1:0]   ddr4_c3_bg,
+   //-- output wire [0:0]   ddr4_c3_ck_t,
+   //-- output wire [0:0]   ddr4_c3_ck_c,
+   //-- output wire [0:0]   ddr4_c3_cke,
+   //-- output wire [0:0]   ddr4_c3_cs_n,
+   //-- output wire         ddr4_c3_act_n,
+   //-- output wire [0:0]   ddr4_c3_odt,
+   //-- output wire         ddr4_c3_par,
+   //-- output wire         ddr4_c3_reset_n,
+   //-- inout  wire [71:0]  ddr4_c3_dq,
+   //-- inout  wire [17:0]  ddr4_c3_dqs_t,
+   //-- inout  wire [17:0]  ddr4_c3_dqs_c
 );
 
 // PTP configuration
@@ -329,6 +350,119 @@ parameter AXIS_ETH_KEEP_WIDTH = AXIS_ETH_DATA_WIDTH/8;
 parameter AXIS_ETH_SYNC_DATA_WIDTH = AXIS_ETH_DATA_WIDTH;
 parameter AXIS_ETH_TX_USER_WIDTH = TX_TAG_WIDTH + 1;
 parameter AXIS_ETH_RX_USER_WIDTH = (PTP_TS_ENABLE ? PTP_TS_WIDTH : 0) + 1;
+
+     wire         qsfp0_modsell         ;
+     wire         qsfp0_resetl          ;
+     wire         qsfp0_lpmode          ;
+     wire         qsfp0_refclk_reset    ;
+     wire [1:0]   qsfp0_fs              ;
+     wire         qsfp1_modsell     ;
+     wire         qsfp1_resetl      ;
+     wire         qsfp1_lpmode      ;
+     wire         qsfp1_refclk_reset;
+     wire         qsfp1_fs          ;
+     wire [3:0]   sw = 4'd0;
+     wire [3:0]   msp_gpio=4'd0;    // rm by 小火车     
+     wire         msp_uart_rxd=1'd0;// rm by 小火车
+     wire         msp_uart_txd;// rm by 小火车
+           wire         qsfp0_tx1_p;            
+           wire         qsfp0_tx1_n;            
+           wire         qsfp0_rx1_p;            
+           wire         qsfp0_rx1_n;            
+           wire         qsfp0_tx2_p;            
+           wire         qsfp0_tx2_n;            
+           wire         qsfp0_rx2_p;            
+           wire         qsfp0_rx2_n;            
+           wire         qsfp0_tx3_p;            
+           wire         qsfp0_tx3_n;            
+           wire         qsfp0_rx3_p;            
+           wire         qsfp0_rx3_n;            
+           wire         qsfp0_tx4_p;            
+           wire         qsfp0_tx4_n;            
+           wire         qsfp0_rx4_p;            
+           wire         qsfp0_rx4_n;            
+           wire         qsfp0_mgt_refclk_1_p;   
+           wire         qsfp0_mgt_refclk_1_n;   
+           wire         qsfp0_modprsl;          
+           wire         qsfp0_intl;             
+
+
+           wire         qsfp1_tx1_p;            
+           wire         qsfp1_tx1_n;            
+           wire         qsfp1_rx1_p;            
+           wire         qsfp1_rx1_n;            
+           wire         qsfp1_tx2_p;            
+           wire         qsfp1_tx2_n;            
+           wire         qsfp1_rx2_p;            
+           wire         qsfp1_rx2_n;            
+           wire         qsfp1_tx3_p;            
+           wire         qsfp1_tx3_n;            
+           wire         qsfp1_rx3_p;            
+           wire         qsfp1_rx3_n;            
+           wire         qsfp1_tx4_p;            
+           wire         qsfp1_tx4_n;            
+           wire         qsfp1_rx4_p;            
+           wire         qsfp1_rx4_n;            
+           wire         qsfp1_mgt_refclk_1_p;   
+           wire         qsfp1_mgt_refclk_1_n;   
+           wire         qsfp1_modprsl;          
+           wire         qsfp1_intl;             
+
+    assign                    qsfp0_rx1_p           =  up_qsfp_rxp[0];
+    assign                    qsfp0_rx1_n           =  up_qsfp_rxn[0];
+    assign                    qsfp0_rx2_p           =  up_qsfp_rxp[1];
+    assign                    qsfp0_rx2_n           =  up_qsfp_rxn[1];
+    assign                    qsfp0_rx3_p           =  up_qsfp_rxp[2];
+    assign                    qsfp0_rx3_n           =  up_qsfp_rxn[2];
+    assign                    qsfp0_rx4_p           =  up_qsfp_rxp[3];
+    assign                    qsfp0_rx4_n           =  up_qsfp_rxn[3];
+    assign                    qsfp0_mgt_refclk_1_p  =  up_qsfp_161p132_clk_p ;
+    assign                    qsfp0_mgt_refclk_1_n  =  up_qsfp_161p132_clk_n ;
+    assign                    qsfp0_modprsl         =  up_qsfp_modprsl;
+    assign                    qsfp0_intl            =  up_qsfp_intl;
+    assign                    qsfp1_rx1_p           =  dn_qsfp_rxp[0];
+    assign                    qsfp1_rx1_n           =  dn_qsfp_rxn[0];
+    assign                    qsfp1_rx2_p           =  dn_qsfp_rxp[1];
+    assign                    qsfp1_rx2_n           =  dn_qsfp_rxn[1];
+    assign                    qsfp1_rx3_p           =  dn_qsfp_rxp[2];
+    assign                    qsfp1_rx3_n           =  dn_qsfp_rxn[2];
+    assign                    qsfp1_rx4_p           =  dn_qsfp_rxp[3];
+    assign                    qsfp1_rx4_n           =  dn_qsfp_rxn[3];
+    assign                    qsfp1_mgt_refclk_1_p  =  dn_qsfp_161p132_clk_p ;
+    assign                    qsfp1_mgt_refclk_1_n  =  dn_qsfp_161p132_clk_n ;
+    assign                    qsfp1_modprsl         =  dn_qsfp_modprsl;
+    assign                    qsfp1_intl            =  dn_qsfp_intl;
+
+
+
+
+
+    assign up_qsfp_txp [0] =                 qsfp0_tx1_p;            
+    assign up_qsfp_txn [0] =                 qsfp0_tx1_n;            
+    assign up_qsfp_txp [1] =                 qsfp0_tx2_p;            
+    assign up_qsfp_txn [1] =                 qsfp0_tx2_n;            
+    assign up_qsfp_txp [2] =                 qsfp0_tx3_p;            
+    assign up_qsfp_txn [2] =                 qsfp0_tx3_n;            
+    assign up_qsfp_txp [3] =                 qsfp0_tx4_p;            
+    assign up_qsfp_txn [3] =                 qsfp0_tx4_n;            
+    assign dn_qsfp_txp [0] =                 qsfp1_tx1_p;            
+    assign dn_qsfp_txn [0] =                 qsfp1_tx1_n;            
+    assign dn_qsfp_txp [1] =                 qsfp1_tx2_p;            
+    assign dn_qsfp_txn [1] =                 qsfp1_tx2_n;            
+    assign dn_qsfp_txp [2] =                 qsfp1_tx3_p;            
+    assign dn_qsfp_txn [2] =                 qsfp1_tx3_n;            
+    assign dn_qsfp_txp [3] =                 qsfp1_tx4_p;            
+    assign dn_qsfp_txn [3] =                 qsfp1_tx4_n;            
+
+
+
+
+
+
+//===========================================================================================
+
+
+
 
 // Clock and reset
 wire pcie_user_clk;
@@ -491,13 +625,13 @@ sync_signal #(
 sync_signal_inst (
     .clk(pcie_user_clk),
     .in({qsfp0_modprsl, qsfp1_modprsl, qsfp0_intl, qsfp1_intl,
-        i2c_scl, i2c_sda}),
+        dn_qsfp_i2c_scl, dn_qsfp_i2c_sda}),
     .out({qsfp0_modprsl_int, qsfp1_modprsl_int, qsfp0_intl_int, qsfp1_intl_int,
         i2c_scl_i, i2c_sda_i})
 );
 
-assign i2c_scl = i2c_scl_t_reg ? 1'bz : i2c_scl_o_reg;
-assign i2c_sda = i2c_sda_t_reg ? 1'bz : i2c_sda_o_reg;
+assign dn_qsfp_i2c_scl = i2c_scl_t_reg ? 1'bz : i2c_scl_o_reg;
+assign dn_qsfp_i2c_sda = i2c_sda_t_reg ? 1'bz : i2c_sda_o_reg;
 
 // Flash
 wire qspi_clk_int;
@@ -717,93 +851,93 @@ wire [1:0]  axil_cms_rresp_int;
 wire        axil_cms_rvalid_int;
 wire        axil_cms_rready_int;
 
-axil_cdc #(
-    .DATA_WIDTH(32),
-    .ADDR_WIDTH(18)
-)
-cms_axil_cdc_inst (
-    .s_clk(axil_cms_clk),
-    .s_rst(axil_cms_rst),
-    .s_axil_awaddr(axil_cms_awaddr),
-    .s_axil_awprot(axil_cms_awprot),
-    .s_axil_awvalid(axil_cms_awvalid),
-    .s_axil_awready(axil_cms_awready),
-    .s_axil_wdata(axil_cms_wdata),
-    .s_axil_wstrb(axil_cms_wstrb),
-    .s_axil_wvalid(axil_cms_wvalid),
-    .s_axil_wready(axil_cms_wready),
-    .s_axil_bresp(axil_cms_bresp),
-    .s_axil_bvalid(axil_cms_bvalid),
-    .s_axil_bready(axil_cms_bready),
-    .s_axil_araddr(axil_cms_araddr),
-    .s_axil_arprot(axil_cms_arprot),
-    .s_axil_arvalid(axil_cms_arvalid),
-    .s_axil_arready(axil_cms_arready),
-    .s_axil_rdata(axil_cms_rdata),
-    .s_axil_rresp(axil_cms_rresp),
-    .s_axil_rvalid(axil_cms_rvalid),
-    .s_axil_rready(axil_cms_rready),
-    .m_clk(clk_50mhz_int),
-    .m_rst(rst_50mhz_int),
-    .m_axil_awaddr(axil_cms_awaddr_int),
-    .m_axil_awprot(axil_cms_awprot_int),
-    .m_axil_awvalid(axil_cms_awvalid_int),
-    .m_axil_awready(axil_cms_awready_int),
-    .m_axil_wdata(axil_cms_wdata_int),
-    .m_axil_wstrb(axil_cms_wstrb_int),
-    .m_axil_wvalid(axil_cms_wvalid_int),
-    .m_axil_wready(axil_cms_wready_int),
-    .m_axil_bresp(axil_cms_bresp_int),
-    .m_axil_bvalid(axil_cms_bvalid_int),
-    .m_axil_bready(axil_cms_bready_int),
-    .m_axil_araddr(axil_cms_araddr_int),
-    .m_axil_arprot(axil_cms_arprot_int),
-    .m_axil_arvalid(axil_cms_arvalid_int),
-    .m_axil_arready(axil_cms_arready_int),
-    .m_axil_rdata(axil_cms_rdata_int),
-    .m_axil_rresp(axil_cms_rresp_int),
-    .m_axil_rvalid(axil_cms_rvalid_int),
-    .m_axil_rready(axil_cms_rready_int)
-);
+//--axil_cdc #(
+//--    .DATA_WIDTH(32),
+//--    .ADDR_WIDTH(18)
+//--)
+//--cms_axil_cdc_inst (
+//--    .s_clk(axil_cms_clk),
+//--    .s_rst(axil_cms_rst),
+//--    .s_axil_awaddr(axil_cms_awaddr),
+//--    .s_axil_awprot(axil_cms_awprot),
+//--    .s_axil_awvalid(axil_cms_awvalid),
+//--    .s_axil_awready(axil_cms_awready),
+//--    .s_axil_wdata(axil_cms_wdata),
+//--    .s_axil_wstrb(axil_cms_wstrb),
+//--    .s_axil_wvalid(axil_cms_wvalid),
+//--    .s_axil_wready(axil_cms_wready),
+//--    .s_axil_bresp(axil_cms_bresp),
+//--    .s_axil_bvalid(axil_cms_bvalid),
+//--    .s_axil_bready(axil_cms_bready),
+//--    .s_axil_araddr(axil_cms_araddr),
+//--    .s_axil_arprot(axil_cms_arprot),
+//--    .s_axil_arvalid(axil_cms_arvalid),
+//--    .s_axil_arready(axil_cms_arready),
+//--    .s_axil_rdata(axil_cms_rdata),
+//--    .s_axil_rresp(axil_cms_rresp),
+//--    .s_axil_rvalid(axil_cms_rvalid),
+//--    .s_axil_rready(axil_cms_rready),
+//--    .m_clk(clk_50mhz_int),
+//--    .m_rst(rst_50mhz_int),
+//--    .m_axil_awaddr(axil_cms_awaddr_int),
+//--    .m_axil_awprot(axil_cms_awprot_int),
+//--    .m_axil_awvalid(axil_cms_awvalid_int),
+//--    .m_axil_awready(axil_cms_awready_int),
+//--    .m_axil_wdata(axil_cms_wdata_int),
+//--    .m_axil_wstrb(axil_cms_wstrb_int),
+//--    .m_axil_wvalid(axil_cms_wvalid_int),
+//--    .m_axil_wready(axil_cms_wready_int),
+//--    .m_axil_bresp(axil_cms_bresp_int),
+//--    .m_axil_bvalid(axil_cms_bvalid_int),
+//--    .m_axil_bready(axil_cms_bready_int),
+//--    .m_axil_araddr(axil_cms_araddr_int),
+//--    .m_axil_arprot(axil_cms_arprot_int),
+//--    .m_axil_arvalid(axil_cms_arvalid_int),
+//--    .m_axil_arready(axil_cms_arready_int),
+//--    .m_axil_rdata(axil_cms_rdata_int),
+//--    .m_axil_rresp(axil_cms_rresp_int),
+//--    .m_axil_rvalid(axil_cms_rvalid_int),
+//--    .m_axil_rready(axil_cms_rready_int)
+//--);
 
-cms_wrapper
-cms_inst (
-    .aclk_ctrl_0(clk_50mhz_int),
-    .aresetn_ctrl_0(~rst_50mhz_int),
-    .interrupt_host_0(),
-    .qsfp0_int_l_0(qsfp0_intl),
-    .qsfp0_lpmode_0(),
-    .qsfp0_modprs_l_0(qsfp0_modprsl),
-    .qsfp0_modsel_l_0(),
-    .qsfp0_reset_l_0(),
-    .qsfp1_int_l_0(qsfp1_intl),
-    .qsfp1_lpmode_0(),
-    .qsfp1_modprs_l_0(qsfp1_modprsl),
-    .qsfp1_modsel_l_0(),
-    .qsfp1_reset_l_0(),
-    .s_axi_ctrl_0_araddr(axil_cms_araddr_int),
-    .s_axi_ctrl_0_arprot(axil_cms_arprot_int),
-    .s_axi_ctrl_0_arready(axil_cms_arready_int),
-    .s_axi_ctrl_0_arvalid(axil_cms_arvalid_int),
-    .s_axi_ctrl_0_awaddr(axil_cms_awaddr_int),
-    .s_axi_ctrl_0_awprot(axil_cms_awprot_int),
-    .s_axi_ctrl_0_awready(axil_cms_awready_int),
-    .s_axi_ctrl_0_awvalid(axil_cms_awvalid_int),
-    .s_axi_ctrl_0_bready(axil_cms_bready_int),
-    .s_axi_ctrl_0_bresp(axil_cms_bresp_int),
-    .s_axi_ctrl_0_bvalid(axil_cms_bvalid_int),
-    .s_axi_ctrl_0_rdata(axil_cms_rdata_int),
-    .s_axi_ctrl_0_rready(axil_cms_rready_int),
-    .s_axi_ctrl_0_rresp(axil_cms_rresp_int),
-    .s_axi_ctrl_0_rvalid(axil_cms_rvalid_int),
-    .s_axi_ctrl_0_wdata(axil_cms_wdata_int),
-    .s_axi_ctrl_0_wready(axil_cms_wready_int),
-    .s_axi_ctrl_0_wstrb(axil_cms_wstrb_int),
-    .s_axi_ctrl_0_wvalid(axil_cms_wvalid_int),
-    .satellite_gpio_0(msp_gpio),
-    .satellite_uart_0_rxd(msp_uart_rxd),
-    .satellite_uart_0_txd(msp_uart_txd)
-);
+//rm by xiaohc  cms_wrapper
+//rm by xiaohc  cms_inst (
+//rm by xiaohc      .aclk_ctrl_0(clk_50mhz_int),
+//rm by xiaohc      .aresetn_ctrl_0(~rst_50mhz_int),
+//rm by xiaohc      .interrupt_host_0(),
+//rm by xiaohc      .qsfp0_int_l_0(qsfp0_intl),
+//rm by xiaohc      .qsfp0_lpmode_0(),
+//rm by xiaohc      .qsfp0_modprs_l_0(qsfp0_modprsl),
+//rm by xiaohc      .qsfp0_modsel_l_0(),
+//rm by xiaohc      .qsfp0_reset_l_0(),
+//rm by xiaohc      .qsfp1_int_l_0(qsfp1_intl),
+//rm by xiaohc      .qsfp1_lpmode_0(),
+//rm by xiaohc      .qsfp1_modprs_l_0(qsfp1_modprsl),
+//rm by xiaohc      .qsfp1_modsel_l_0(),
+//rm by xiaohc      .qsfp1_reset_l_0(),
+//rm by xiaohc      .s_axi_ctrl_0_araddr(axil_cms_araddr_int),
+//rm by xiaohc      .s_axi_ctrl_0_arprot(axil_cms_arprot_int),
+//rm by xiaohc      .s_axi_ctrl_0_arready(axil_cms_arready_int),
+//rm by xiaohc      .s_axi_ctrl_0_arvalid(axil_cms_arvalid_int),
+//rm by xiaohc      .s_axi_ctrl_0_awaddr(axil_cms_awaddr_int),
+//rm by xiaohc      .s_axi_ctrl_0_awprot(axil_cms_awprot_int),
+//rm by xiaohc      .s_axi_ctrl_0_awready(axil_cms_awready_int),
+//rm by xiaohc      .s_axi_ctrl_0_awvalid(axil_cms_awvalid_int),
+//rm by xiaohc      .s_axi_ctrl_0_bready(axil_cms_bready_int),
+//rm by xiaohc      .s_axi_ctrl_0_bresp(axil_cms_bresp_int),
+//rm by xiaohc      .s_axi_ctrl_0_bvalid(axil_cms_bvalid_int),
+//rm by xiaohc      .s_axi_ctrl_0_rdata(axil_cms_rdata_int),
+//rm by xiaohc      .s_axi_ctrl_0_rready(axil_cms_rready_int),
+//rm by xiaohc      .s_axi_ctrl_0_rresp(axil_cms_rresp_int),
+//rm by xiaohc      .s_axi_ctrl_0_rvalid(axil_cms_rvalid_int),
+//rm by xiaohc      .s_axi_ctrl_0_wdata(axil_cms_wdata_int),
+//rm by xiaohc      .s_axi_ctrl_0_wready(axil_cms_wready_int),
+//rm by xiaohc      .s_axi_ctrl_0_wstrb(axil_cms_wstrb_int),
+//rm by xiaohc      .s_axi_ctrl_0_wvalid(axil_cms_wvalid_int),
+//rm by xiaohc      .satellite_gpio_0(msp_gpio),   
+//rm by xiaohc      .satellite_uart_0_rxd(msp_uart_rxd),
+//rm by xiaohc      .satellite_uart_0_txd(msp_uart_txd)
+//rm by xiaohc  );
 
 // configure SI5335 clock generators
 reg qsfp_refclk_reset_reg = 1'b1;
@@ -835,8 +969,8 @@ IBUFDS_GTE4 #(
     .REFCLK_HROW_CK_SEL(2'b00)
 )
 ibufds_gte4_pcie_mgt_refclk_inst (
-    .I             (pcie_refclk_p),
-    .IB            (pcie_refclk_n),
+    .I             (pcie_ref_clk_p),
+    .IB            (pcie_ref_clk_n),
     .CEB           (1'b0),
     .O             (pcie_sys_clk_gt),
     .ODIV2         (pcie_sys_clk)
@@ -935,13 +1069,13 @@ pcie_user_reset_bufg_inst (
 
 pcie4_uscale_plus_0
 pcie4_uscale_plus_inst (
-    .pci_exp_txn(pcie_tx_n),
-    .pci_exp_txp(pcie_tx_p),
-    .pci_exp_rxn(pcie_rx_n),
-    .pci_exp_rxp(pcie_rx_p),
+    .pci_exp_txn(pcie_lane_txn),
+    .pci_exp_txp(pcie_lane_txp),
+    .pci_exp_rxn(pcie_lane_rxn),
+    .pci_exp_rxp(pcie_lane_rxp),
     .user_clk(pcie_user_clk),
     .user_reset(pcie_user_reset_int),
-    .user_lnk_up(),
+    .user_lnk_up(pcie_lnk_up ),
 
     .s_axis_rq_tdata(axis_rq_tdata),
     .s_axis_rq_tkeep(axis_rq_tkeep),
@@ -1090,7 +1224,7 @@ pcie4_uscale_plus_inst (
 
     .sys_clk(pcie_sys_clk),
     .sys_clk_gt(pcie_sys_clk_gt),
-    .sys_reset(pcie_reset_n),
+    .sys_reset(pcie_perst ),
 
     .phy_rdy_out()
 );
@@ -1407,10 +1541,8 @@ assign ptp_sample_clk = clk_125mhz_int;
 
 wire [2:0] led_int;
 
-assign led[0] = led_int[0]; // red
-assign led[1] = qsfp1_rx_status; // yellow
-assign led[2] = qsfp0_rx_status; // green
-
+assign qsfp_led_y = led_int[1:0];
+assign qsfp_led_g = {qsfp1_rx_status, qsfp0_rx_status};
 // DDR4
 wire [DDR_CH-1:0]                     ddr_clk;
 wire [DDR_CH-1:0]                     ddr_rst;
@@ -1469,9 +1601,10 @@ always @(posedge pcie_user_clk or posedge pcie_user_reset) begin
     end
 end
 
+
 ddr4_0 ddr4_c0_inst (
-    .c0_sys_clk_p(clk_300mhz_0_p),
-    .c0_sys_clk_n(clk_300mhz_0_n),
+    .c0_sys_clk_p(c0_ddr4_clk_clk_p),
+    .c0_sys_clk_n(c0_ddr4_clk_clk_n),
     .sys_rst(ddr4_rst_reg),
 
     .c0_init_calib_complete(ddr_status[0 +: 1]),
@@ -1479,42 +1612,59 @@ ddr4_0 ddr4_c0_inst (
     .dbg_clk(),
     .dbg_bus(),
 
-    .c0_ddr4_adr(ddr4_c0_adr),
-    .c0_ddr4_ba(ddr4_c0_ba),
-    .c0_ddr4_cke(ddr4_c0_cke),
-    .c0_ddr4_cs_n(ddr4_c0_cs_n),
-    .c0_ddr4_dq(ddr4_c0_dq),
-    .c0_ddr4_dqs_t(ddr4_c0_dqs_t),
-    .c0_ddr4_dqs_c(ddr4_c0_dqs_c),
-    .c0_ddr4_odt(ddr4_c0_odt),
-    .c0_ddr4_parity(ddr4_c0_par),
-    .c0_ddr4_bg(ddr4_c0_bg),
-    .c0_ddr4_reset_n(ddr4_c0_reset_n),
-    .c0_ddr4_act_n(ddr4_c0_act_n),
-    .c0_ddr4_ck_t(ddr4_c0_ck_t),
-    .c0_ddr4_ck_c(ddr4_c0_ck_c),
+    //.c0_ddr4_adr(ddr4_c0_adr),
+    //.c0_ddr4_ba(ddr4_c0_ba),
+    //.c0_ddr4_cke(ddr4_c0_cke),
+    //.c0_ddr4_cs_n(ddr4_c0_cs_n),
+    //.c0_ddr4_dq(ddr4_c0_dq),
+    //.c0_ddr4_dqs_t(ddr4_c0_dqs_t),
+    //.c0_ddr4_dqs_c(ddr4_c0_dqs_c),
+    //.c0_ddr4_odt(ddr4_c0_odt),
+    //.c0_ddr4_parity(ddr4_c0_par),
+    //.c0_ddr4_bg(ddr4_c0_bg),
+    //.c0_ddr4_reset_n(ddr4_c0_reset_n),
+    //.c0_ddr4_act_n(ddr4_c0_act_n),
+    //.c0_ddr4_ck_t(ddr4_c0_ck_t),
+    //.c0_ddr4_ck_c(ddr4_c0_ck_c),
+
+    .c0_ddr4_adr      (c0_ddr4_adr       ),           // output wire [16 : 0] c0_ddr4_adr
+    .c0_ddr4_ba       (c0_ddr4_ba        ),           // output wire [ 1 : 0] c0_ddr4_ba
+    .c0_ddr4_cke      (c0_ddr4_cke       ),           // output wire [ 0 : 0] c0_ddr4_cke
+    .c0_ddr4_cs_n     (c0_ddr4_cs_n      ),           // output wire [ 0 : 0] c0_ddr4_cs_n
+    .c0_ddr4_dm_dbi_n (c0_ddr4_dm_n  ),           // inout  wire [ 7 : 0] c0_ddr4_dm_dbi_n
+    .c0_ddr4_dq       (c0_ddr4_dq        ),           // inout  wire [63 : 0] c0_ddr4_dq
+    .c0_ddr4_dqs_c    (c0_ddr4_dqs_c     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_c
+    .c0_ddr4_dqs_t    (c0_ddr4_dqs_t     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_t
+    .c0_ddr4_odt      (c0_ddr4_odt       ),           // output wire [ 0 : 0] c0_ddr4_odt
+    .c0_ddr4_bg       (c0_ddr4_bg        ),           // output wire [ 0 : 0] c0_ddr4_bg
+    .c0_ddr4_reset_n  (c0_ddr4_reset_n   ),           // output wire          c0_ddr4_reset_n
+    .c0_ddr4_act_n    (c0_ddr4_act_n     ),           // output wire          c0_ddr4_act_n
+    .c0_ddr4_ck_c     (c0_ddr4_ck_c      ),           // output wire [0  : 0] c0_ddr4_ck_c
+    .c0_ddr4_ck_t     (c0_ddr4_ck_t      ),           // output wire [0  : 0] c0_ddr4_ck_t
+
+
 
     .c0_ddr4_ui_clk(ddr_clk[0 +: 1]),
     .c0_ddr4_ui_clk_sync_rst(ddr_rst[0 +: 1]),
 
     .c0_ddr4_aresetn(!ddr_rst[0 +: 1]),
 
-    .c0_ddr4_s_axi_ctrl_awvalid(1'b0),
-    .c0_ddr4_s_axi_ctrl_awready(),
-    .c0_ddr4_s_axi_ctrl_awaddr(32'd0),
-    .c0_ddr4_s_axi_ctrl_wvalid(1'b0),
-    .c0_ddr4_s_axi_ctrl_wready(),
-    .c0_ddr4_s_axi_ctrl_wdata(32'd0),
-    .c0_ddr4_s_axi_ctrl_bvalid(),
-    .c0_ddr4_s_axi_ctrl_bready(1'b1),
-    .c0_ddr4_s_axi_ctrl_bresp(),
-    .c0_ddr4_s_axi_ctrl_arvalid(1'b0),
-    .c0_ddr4_s_axi_ctrl_arready(),
-    .c0_ddr4_s_axi_ctrl_araddr(31'd0),
-    .c0_ddr4_s_axi_ctrl_rvalid(),
-    .c0_ddr4_s_axi_ctrl_rready(1'b1),
-    .c0_ddr4_s_axi_ctrl_rdata(),
-    .c0_ddr4_s_axi_ctrl_rresp(),
+    //.c0_ddr4_s_axi_ctrl_awvalid(1'b0),
+    //.c0_ddr4_s_axi_ctrl_awready(),
+    //.c0_ddr4_s_axi_ctrl_awaddr(32'd0),
+    //.c0_ddr4_s_axi_ctrl_wvalid(1'b0),
+    //.c0_ddr4_s_axi_ctrl_wready(),
+    //.c0_ddr4_s_axi_ctrl_wdata(32'd0),
+    //.c0_ddr4_s_axi_ctrl_bvalid(),
+    //.c0_ddr4_s_axi_ctrl_bready(1'b1),
+    //.c0_ddr4_s_axi_ctrl_bresp(),
+    //.c0_ddr4_s_axi_ctrl_arvalid(1'b0),
+    //.c0_ddr4_s_axi_ctrl_arready(),
+    //.c0_ddr4_s_axi_ctrl_araddr(31'd0),
+    //.c0_ddr4_s_axi_ctrl_rvalid(),
+    //.c0_ddr4_s_axi_ctrl_rready(1'b1),
+    //.c0_ddr4_s_axi_ctrl_rdata(),
+    //.c0_ddr4_s_axi_ctrl_rresp(),
 
     .c0_ddr4_s_axi_awid(m_axi_ddr_awid[0*AXI_DDR_ID_WIDTH +: AXI_DDR_ID_WIDTH]),
     .c0_ddr4_s_axi_awaddr(m_axi_ddr_awaddr[0*AXI_DDR_ADDR_WIDTH +: AXI_DDR_ADDR_WIDTH]),
@@ -1557,24 +1707,27 @@ ddr4_0 ddr4_c0_inst (
 
 end else begin
 
-assign ddr4_c0_adr = {17{1'bz}};
-assign ddr4_c0_ba = {2{1'bz}};
-assign ddr4_c0_bg = {2{1'bz}};
-assign ddr4_c0_cke = 1'bz;
-assign ddr4_c0_cs_n = 1'bz;
-assign ddr4_c0_act_n = 1'bz;
-assign ddr4_c0_odt = 1'bz;
-assign ddr4_c0_par = 1'bz;
-assign ddr4_c0_reset_n = 1'b0;
-assign ddr4_c0_dq = {72{1'bz}};
-assign ddr4_c0_dqs_t = {18{1'bz}};
-assign ddr4_c0_dqs_c = {18{1'bz}};
+assign c0_ddr4_adr      ={17{1'bz}};
+assign c0_ddr4_ba       ={ 2{1'bz}};
+assign c0_ddr4_cke      ={ 1{1'bz}};
+assign c0_ddr4_cs_n     ={ 1{1'bz}};
+assign c0_ddr4_dm_n     ={ 8{1'bz}};//
+assign c0_ddr4_dq       ={64{1'bz}};
+assign c0_ddr4_dqs_c    ={ 8{1'bz}};
+assign c0_ddr4_dqs_t    ={ 8{1'bz}};
+assign c0_ddr4_odt      =    1'bz  ;
+assign c0_ddr4_bg       =    1'bz  ;
+assign c0_ddr4_reset_n  =    1'b0  ;
+assign c0_ddr4_act_n    =    1'bz  ;
+assign c0_ddr4_ck_c     =    1'bz  ;
+assign c0_ddr4_ck_t     =    1'bz  ;
+
 
 OBUFTDS ddr4_c0_ck_obuftds_inst (
     .I(1'b0),
     .T(1'b1),
-    .O(ddr4_c0_ck_t),
-    .OB(ddr4_c0_ck_c)
+    .O (c0_ddr4_ck_t),
+    .OB(c0_ddr4_ck_c)
 );
 
 assign ddr_clk = 0;
@@ -1609,8 +1762,8 @@ always @(posedge pcie_user_clk or posedge pcie_user_reset) begin
 end
 
 ddr4_0 ddr4_c1_inst (
-    .c0_sys_clk_p(clk_300mhz_1_p),
-    .c0_sys_clk_n(clk_300mhz_1_n),
+    .c0_sys_clk_p(c1_ddr4_clk_clk_p),
+    .c0_sys_clk_n(c1_ddr4_clk_clk_n),
     .sys_rst(ddr4_rst_reg),
 
     .c0_init_calib_complete(ddr_status[1 +: 1]),
@@ -1618,20 +1771,34 @@ ddr4_0 ddr4_c1_inst (
     .dbg_clk(),
     .dbg_bus(),
 
-    .c0_ddr4_adr(ddr4_c1_adr),
-    .c0_ddr4_ba(ddr4_c1_ba),
-    .c0_ddr4_cke(ddr4_c1_cke),
-    .c0_ddr4_cs_n(ddr4_c1_cs_n),
-    .c0_ddr4_dq(ddr4_c1_dq),
-    .c0_ddr4_dqs_t(ddr4_c1_dqs_t),
-    .c0_ddr4_dqs_c(ddr4_c1_dqs_c),
-    .c0_ddr4_odt(ddr4_c1_odt),
-    .c0_ddr4_parity(ddr4_c1_par),
-    .c0_ddr4_bg(ddr4_c1_bg),
-    .c0_ddr4_reset_n(ddr4_c1_reset_n),
-    .c0_ddr4_act_n(ddr4_c1_act_n),
-    .c0_ddr4_ck_t(ddr4_c1_ck_t),
-    .c0_ddr4_ck_c(ddr4_c1_ck_c),
+    //.c0_ddr4_adr(ddr4_c1_adr),
+    //.c0_ddr4_ba(ddr4_c1_ba),
+    //.c0_ddr4_cke(ddr4_c1_cke),
+    //.c0_ddr4_cs_n(ddr4_c1_cs_n),
+    //.c0_ddr4_dq(ddr4_c1_dq),
+    //.c0_ddr4_dqs_t(ddr4_c1_dqs_t),
+    //.c0_ddr4_dqs_c(ddr4_c1_dqs_c),
+    //.c0_ddr4_odt(ddr4_c1_odt),
+    //.c0_ddr4_parity(ddr4_c1_par),
+    //.c0_ddr4_bg(ddr4_c1_bg),
+    //.c0_ddr4_reset_n(ddr4_c1_reset_n),
+    //.c0_ddr4_act_n(ddr4_c1_act_n),
+    //.c0_ddr4_ck_t(ddr4_c1_ck_t),
+    //.c0_ddr4_ck_c(ddr4_c1_ck_c),
+    .c0_ddr4_adr      (c1_ddr4_adr       ),           // output wire [16 : 0] c0_ddr4_adr
+    .c0_ddr4_ba       (c1_ddr4_ba        ),           // output wire [ 1 : 0] c0_ddr4_ba
+    .c0_ddr4_cke      (c1_ddr4_cke       ),           // output wire [ 0 : 0] c0_ddr4_cke
+    .c0_ddr4_cs_n     (c1_ddr4_cs_n      ),           // output wire [ 0 : 0] c0_ddr4_cs_n
+    .c0_ddr4_dm_dbi_n (c1_ddr4_dm_n  ),           // inout  wire [ 7 : 0] c0_ddr4_dm_dbi_n
+    .c0_ddr4_dq       (c1_ddr4_dq        ),           // inout  wire [63 : 0] c0_ddr4_dq
+    .c0_ddr4_dqs_c    (c1_ddr4_dqs_c     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_c
+    .c0_ddr4_dqs_t    (c1_ddr4_dqs_t     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_t
+    .c0_ddr4_odt      (c1_ddr4_odt       ),           // output wire [ 0 : 0] c0_ddr4_odt
+    .c0_ddr4_bg       (c1_ddr4_bg        ),           // output wire [ 0 : 0] c0_ddr4_bg
+    .c0_ddr4_reset_n  (c1_ddr4_reset_n   ),           // output wire          c0_ddr4_reset_n
+    .c0_ddr4_act_n    (c1_ddr4_act_n     ),           // output wire          c0_ddr4_act_n
+    .c0_ddr4_ck_c     (c1_ddr4_ck_c      ),           // output wire [0  : 0] c0_ddr4_ck_c
+    .c0_ddr4_ck_t     (c1_ddr4_ck_t      ),           // output wire [0  : 0] c0_ddr4_ck_t
 
     .c0_ddr4_ui_clk(ddr_clk[1 +: 1]),
     .c0_ddr4_ui_clk_sync_rst(ddr_rst[1 +: 1]),
@@ -1696,24 +1863,27 @@ ddr4_0 ddr4_c1_inst (
 
 end else begin
 
-assign ddr4_c1_adr = {17{1'bz}};
-assign ddr4_c1_ba = {2{1'bz}};
-assign ddr4_c1_bg = {2{1'bz}};
-assign ddr4_c1_cke = 1'bz;
-assign ddr4_c1_cs_n = 1'bz;
-assign ddr4_c1_act_n = 1'bz;
-assign ddr4_c1_odt = 1'bz;
-assign ddr4_c1_par = 1'bz;
-assign ddr4_c1_reset_n = 1'b0;
-assign ddr4_c1_dq = {72{1'bz}};
-assign ddr4_c1_dqs_t = {18{1'bz}};
-assign ddr4_c1_dqs_c = {18{1'bz}};
+assign c1_ddr4_adr      ={17{1'bz}};
+assign c1_ddr4_ba       ={ 2{1'bz}};
+assign c1_ddr4_cke      ={ 1{1'bz}};
+assign c1_ddr4_cs_n     ={ 1{1'bz}};
+assign c1_ddr4_dm_n     ={ 8{1'bz}};//
+assign c1_ddr4_dq       ={64{1'bz}};
+assign c1_ddr4_dqs_c    ={ 8{1'bz}};
+assign c1_ddr4_dqs_t    ={ 8{1'bz}};
+assign c1_ddr4_odt      =    1'bz  ;
+assign c1_ddr4_bg       =    1'bz  ;
+assign c1_ddr4_reset_n  =    1'b0  ;
+assign c1_ddr4_act_n    =    1'bz  ;
+assign c1_ddr4_ck_c     =    1'bz  ;
+assign c1_ddr4_ck_t     =    1'bz  ;
+
 
 OBUFTDS ddr4_c1_ck_obuftds_inst (
     .I(1'b0),
     .T(1'b1),
-    .O(ddr4_c1_ck_t),
-    .OB(ddr4_c1_ck_c)
+    .O (c1_ddr4_ck_t),
+    .OB(c1_ddr4_ck_c)
 );
 
 end
@@ -1731,8 +1901,8 @@ always @(posedge pcie_user_clk or posedge pcie_user_reset) begin
 end
 
 ddr4_0 ddr4_c2_inst (
-    .c0_sys_clk_p(clk_300mhz_2_p),
-    .c0_sys_clk_n(clk_300mhz_2_n),
+    .c0_sys_clk_p(c2_ddr4_clk_clk_p),
+    .c0_sys_clk_n(c2_ddr4_clk_clk_n),
     .sys_rst(ddr4_rst_reg),
 
     .c0_init_calib_complete(ddr_status[2 +: 1]),
@@ -1740,20 +1910,35 @@ ddr4_0 ddr4_c2_inst (
     .dbg_clk(),
     .dbg_bus(),
 
-    .c0_ddr4_adr(ddr4_c2_adr),
-    .c0_ddr4_ba(ddr4_c2_ba),
-    .c0_ddr4_cke(ddr4_c2_cke),
-    .c0_ddr4_cs_n(ddr4_c2_cs_n),
-    .c0_ddr4_dq(ddr4_c2_dq),
-    .c0_ddr4_dqs_t(ddr4_c2_dqs_t),
-    .c0_ddr4_dqs_c(ddr4_c2_dqs_c),
-    .c0_ddr4_odt(ddr4_c2_odt),
-    .c0_ddr4_parity(ddr4_c2_par),
-    .c0_ddr4_bg(ddr4_c2_bg),
-    .c0_ddr4_reset_n(ddr4_c2_reset_n),
-    .c0_ddr4_act_n(ddr4_c2_act_n),
-    .c0_ddr4_ck_t(ddr4_c2_ck_t),
-    .c0_ddr4_ck_c(ddr4_c2_ck_c),
+    //.c0_ddr4_adr(ddr4_c2_adr),
+    //.c0_ddr4_ba(ddr4_c2_ba),
+    //.c0_ddr4_cke(ddr4_c2_cke),
+    //.c0_ddr4_cs_n(ddr4_c2_cs_n),
+    //.c0_ddr4_dq(ddr4_c2_dq),
+    //.c0_ddr4_dqs_t(ddr4_c2_dqs_t),
+    //.c0_ddr4_dqs_c(ddr4_c2_dqs_c),
+    //.c0_ddr4_odt(ddr4_c2_odt),
+    //.c0_ddr4_parity(ddr4_c2_par),
+    //.c0_ddr4_bg(ddr4_c2_bg),
+    //.c0_ddr4_reset_n(ddr4_c2_reset_n),
+    //.c0_ddr4_act_n(ddr4_c2_act_n),
+    //.c0_ddr4_ck_t(ddr4_c2_ck_t),
+    //.c0_ddr4_ck_c(ddr4_c2_ck_c),
+    .c0_ddr4_adr      (c2_ddr4_adr       ),           // output wire [16 : 0] c0_ddr4_adr
+    .c0_ddr4_ba       (c2_ddr4_ba        ),           // output wire [ 1 : 0] c0_ddr4_ba
+    .c0_ddr4_cke      (c2_ddr4_cke       ),           // output wire [ 0 : 0] c0_ddr4_cke
+    .c0_ddr4_cs_n     (c2_ddr4_cs_n      ),           // output wire [ 0 : 0] c0_ddr4_cs_n
+    .c0_ddr4_dm_dbi_n (c2_ddr4_dm_n  ),           // inout  wire [ 7 : 0] c0_ddr4_dm_dbi_n
+    .c0_ddr4_dq       (c2_ddr4_dq        ),           // inout  wire [63 : 0] c0_ddr4_dq
+    .c0_ddr4_dqs_c    (c2_ddr4_dqs_c     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_c
+    .c0_ddr4_dqs_t    (c2_ddr4_dqs_t     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_t
+    .c0_ddr4_odt      (c2_ddr4_odt       ),           // output wire [ 0 : 0] c0_ddr4_odt
+    .c0_ddr4_bg       (c2_ddr4_bg        ),           // output wire [ 0 : 0] c0_ddr4_bg
+    .c0_ddr4_reset_n  (c2_ddr4_reset_n   ),           // output wire          c0_ddr4_reset_n
+    .c0_ddr4_act_n    (c2_ddr4_act_n     ),           // output wire          c0_ddr4_act_n
+    .c0_ddr4_ck_c     (c2_ddr4_ck_c      ),           // output wire [0  : 0] c0_ddr4_ck_c
+    .c0_ddr4_ck_t     (c2_ddr4_ck_t      ),           // output wire [0  : 0] c0_ddr4_ck_t
+
 
     .c0_ddr4_ui_clk(ddr_clk[2 +: 1]),
     .c0_ddr4_ui_clk_sync_rst(ddr_rst[2 +: 1]),
@@ -1818,24 +2003,27 @@ ddr4_0 ddr4_c2_inst (
 
 end else begin
 
-assign ddr4_c2_adr = {17{1'bz}};
-assign ddr4_c2_ba = {2{1'bz}};
-assign ddr4_c2_bg = {2{1'bz}};
-assign ddr4_c2_cke = 1'bz;
-assign ddr4_c2_cs_n = 1'bz;
-assign ddr4_c2_act_n = 1'bz;
-assign ddr4_c2_odt = 1'bz;
-assign ddr4_c2_par = 1'bz;
-assign ddr4_c2_reset_n = 1'b0;
-assign ddr4_c2_dq = {72{1'bz}};
-assign ddr4_c2_dqs_t = {18{1'bz}};
-assign ddr4_c2_dqs_c = {18{1'bz}};
+assign c2_ddr4_adr      ={17{1'bz}};
+assign c2_ddr4_ba       ={ 2{1'bz}};
+assign c2_ddr4_cke      ={ 1{1'bz}};
+assign c2_ddr4_cs_n     ={ 1{1'bz}};
+assign c2_ddr4_dm_n     ={ 8{1'bz}};//
+assign c2_ddr4_dq       ={64{1'bz}};
+assign c2_ddr4_dqs_c    ={ 8{1'bz}};
+assign c2_ddr4_dqs_t    ={ 8{1'bz}};
+assign c2_ddr4_odt      =    1'bz  ;
+assign c2_ddr4_bg       =    1'bz  ;
+assign c2_ddr4_reset_n  =    1'b0  ;
+assign c2_ddr4_act_n    =    1'bz  ;
+assign c2_ddr4_ck_c     =    1'bz  ;
+assign c2_ddr4_ck_t     =    1'bz  ;
+
 
 OBUFTDS ddr4_c2_ck_obuftds_inst (
     .I(1'b0),
     .T(1'b1),
-    .O(ddr4_c2_ck_t),
-    .OB(ddr4_c2_ck_c)
+    .O (c2_ddr4_ck_t),
+    .OB(c2_ddr4_ck_c)
 );
 
 end
@@ -1853,8 +2041,8 @@ always @(posedge pcie_user_clk or posedge pcie_user_reset) begin
 end
 
 ddr4_0 ddr4_c3_inst (
-    .c0_sys_clk_p(clk_300mhz_3_p),
-    .c0_sys_clk_n(clk_300mhz_3_n),
+    .c0_sys_clk_p(c3_ddr4_clk_clk_p ),
+    .c0_sys_clk_n(c3_ddr4_clk_clk_n ),
     .sys_rst(ddr4_rst_reg),
 
     .c0_init_calib_complete(ddr_status[3 +: 1]),
@@ -1862,20 +2050,35 @@ ddr4_0 ddr4_c3_inst (
     .dbg_clk(),
     .dbg_bus(),
 
-    .c0_ddr4_adr(ddr4_c3_adr),
-    .c0_ddr4_ba(ddr4_c3_ba),
-    .c0_ddr4_cke(ddr4_c3_cke),
-    .c0_ddr4_cs_n(ddr4_c3_cs_n),
-    .c0_ddr4_dq(ddr4_c3_dq),
-    .c0_ddr4_dqs_t(ddr4_c3_dqs_t),
-    .c0_ddr4_dqs_c(ddr4_c3_dqs_c),
-    .c0_ddr4_odt(ddr4_c3_odt),
-    .c0_ddr4_parity(ddr4_c3_par),
-    .c0_ddr4_bg(ddr4_c3_bg),
-    .c0_ddr4_reset_n(ddr4_c3_reset_n),
-    .c0_ddr4_act_n(ddr4_c3_act_n),
-    .c0_ddr4_ck_t(ddr4_c3_ck_t),
-    .c0_ddr4_ck_c(ddr4_c3_ck_c),
+    //.c0_ddr4_adr(ddr4_c3_adr),
+    //.c0_ddr4_ba(ddr4_c3_ba),
+    //.c0_ddr4_cke(ddr4_c3_cke),
+    //.c0_ddr4_cs_n(ddr4_c3_cs_n),
+    //.c0_ddr4_dq(ddr4_c3_dq),
+    //.c0_ddr4_dqs_t(ddr4_c3_dqs_t),
+    //.c0_ddr4_dqs_c(ddr4_c3_dqs_c),
+    //.c0_ddr4_odt(ddr4_c3_odt),
+    //.c0_ddr4_parity(ddr4_c3_par),
+    //.c0_ddr4_bg(ddr4_c3_bg),
+    //.c0_ddr4_reset_n(ddr4_c3_reset_n),
+    //.c0_ddr4_act_n(ddr4_c3_act_n),
+    //.c0_ddr4_ck_t(ddr4_c3_ck_t),
+    //.c0_ddr4_ck_c(ddr4_c3_ck_c),
+    .c0_ddr4_adr      (c3_ddr4_adr       ),           // output wire [16 : 0] c0_ddr4_adr
+    .c0_ddr4_ba       (c3_ddr4_ba        ),           // output wire [ 1 : 0] c0_ddr4_ba
+    .c0_ddr4_cke      (c3_ddr4_cke       ),           // output wire [ 0 : 0] c0_ddr4_cke
+    .c0_ddr4_cs_n     (c3_ddr4_cs_n      ),           // output wire [ 0 : 0] c0_ddr4_cs_n
+    .c0_ddr4_dm_dbi_n (c3_ddr4_dm_n  ),           // inout  wire [ 7 : 0] c0_ddr4_dm_dbi_n
+    .c0_ddr4_dq       (c3_ddr4_dq        ),           // inout  wire [63 : 0] c0_ddr4_dq
+    .c0_ddr4_dqs_c    (c3_ddr4_dqs_c     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_c
+    .c0_ddr4_dqs_t    (c3_ddr4_dqs_t     ),           // inout  wire [ 7 : 0] c0_ddr4_dqs_t
+    .c0_ddr4_odt      (c3_ddr4_odt       ),           // output wire [ 0 : 0] c0_ddr4_odt
+    .c0_ddr4_bg       (c3_ddr4_bg        ),           // output wire [ 0 : 0] c0_ddr4_bg
+    .c0_ddr4_reset_n  (c3_ddr4_reset_n   ),           // output wire          c0_ddr4_reset_n
+    .c0_ddr4_act_n    (c3_ddr4_act_n     ),           // output wire          c0_ddr4_act_n
+    .c0_ddr4_ck_c     (c3_ddr4_ck_c      ),           // output wire [0  : 0] c0_ddr4_ck_c
+    .c0_ddr4_ck_t     (c3_ddr4_ck_t      ),           // output wire [0  : 0] c0_ddr4_ck_t
+
 
     .c0_ddr4_ui_clk(ddr_clk[3 +: 1]),
     .c0_ddr4_ui_clk_sync_rst(ddr_rst[3 +: 1]),
@@ -1940,24 +2143,27 @@ ddr4_0 ddr4_c3_inst (
 
 end else begin
 
-assign ddr4_c3_adr = {17{1'bz}};
-assign ddr4_c3_ba = {2{1'bz}};
-assign ddr4_c3_bg = {2{1'bz}};
-assign ddr4_c3_cke = 1'bz;
-assign ddr4_c3_cs_n = 1'bz;
-assign ddr4_c3_act_n = 1'bz;
-assign ddr4_c3_odt = 1'bz;
-assign ddr4_c3_par = 1'bz;
-assign ddr4_c3_reset_n = 1'b0;
-assign ddr4_c3_dq = {72{1'bz}};
-assign ddr4_c3_dqs_t = {18{1'bz}};
-assign ddr4_c3_dqs_c = {18{1'bz}};
+assign c3_ddr4_adr      ={17{1'bz}};
+assign c3_ddr4_ba       ={ 2{1'bz}};
+assign c3_ddr4_cke      ={ 1{1'bz}};
+assign c3_ddr4_cs_n     ={ 1{1'bz}};
+assign c3_ddr4_dm_n     ={ 8{1'bz}};//
+assign c3_ddr4_dq       ={64{1'bz}};
+assign c3_ddr4_dqs_c    ={ 8{1'bz}};
+assign c3_ddr4_dqs_t    ={ 8{1'bz}};
+assign c3_ddr4_odt      =    1'bz  ;
+assign c3_ddr4_bg       =    1'bz  ;
+assign c3_ddr4_reset_n  =    1'b0  ;
+assign c3_ddr4_act_n    =    1'bz  ;
+assign c3_ddr4_ck_c     =    1'bz  ;
+assign c3_ddr4_ck_t     =    1'bz  ;
+
 
 OBUFTDS ddr4_c3_ck_obuftds_inst (
     .I(1'b0),
     .T(1'b1),
-    .O(ddr4_c3_ck_t),
-    .OB(ddr4_c3_ck_c)
+    .O (c3_ddr4_ck_t),
+    .OB(c3_ddr4_ck_c)
 );
 
 end
@@ -2360,27 +2566,48 @@ core_inst (
     /*
      * AXI-Lite interface to CMS
      */
-    .m_axil_cms_clk(axil_cms_clk),
-    .m_axil_cms_rst(axil_cms_rst),
-    .m_axil_cms_awaddr(axil_cms_awaddr),
-    .m_axil_cms_awprot(axil_cms_awprot),
-    .m_axil_cms_awvalid(axil_cms_awvalid),
-    .m_axil_cms_awready(axil_cms_awready),
-    .m_axil_cms_wdata(axil_cms_wdata),
-    .m_axil_cms_wstrb(axil_cms_wstrb),
-    .m_axil_cms_wvalid(axil_cms_wvalid),
-    .m_axil_cms_wready(axil_cms_wready),
-    .m_axil_cms_bresp(axil_cms_bresp),
-    .m_axil_cms_bvalid(axil_cms_bvalid),
-    .m_axil_cms_bready(axil_cms_bready),
-    .m_axil_cms_araddr(axil_cms_araddr),
-    .m_axil_cms_arprot(axil_cms_arprot),
-    .m_axil_cms_arvalid(axil_cms_arvalid),
-    .m_axil_cms_arready(axil_cms_arready),
-    .m_axil_cms_rdata(axil_cms_rdata),
-    .m_axil_cms_rresp(axil_cms_rresp),
-    .m_axil_cms_rvalid(axil_cms_rvalid),
-    .m_axil_cms_rready(axil_cms_rready)
+    //.m_axil_cms_clk         (axil_cms_clk        ),
+    //.m_axil_cms_rst         (axil_cms_rst        ),
+    //.m_axil_cms_awaddr      (axil_cms_awaddr     ),
+    //.m_axil_cms_awprot      (axil_cms_awprot     ),
+    //.m_axil_cms_awvalid     (axil_cms_awvalid    ),
+    //.m_axil_cms_awready     (axil_cms_awready    ),
+    //.m_axil_cms_wdata       (axil_cms_wdata      ),
+    //.m_axil_cms_wstrb       (axil_cms_wstrb      ),
+    //.m_axil_cms_wvalid      (axil_cms_wvalid     ),
+    //.m_axil_cms_wready      (axil_cms_wready     ),
+    //.m_axil_cms_bresp       (axil_cms_bresp      ),
+    //.m_axil_cms_bvalid      (axil_cms_bvalid     ),
+    //.m_axil_cms_bready      (axil_cms_bready     ),
+    //.m_axil_cms_araddr      (axil_cms_araddr     ),
+    //.m_axil_cms_arprot      (axil_cms_arprot     ),
+    //.m_axil_cms_arvalid     (axil_cms_arvalid    ),
+    //.m_axil_cms_arready     (axil_cms_arready    ),
+    //.m_axil_cms_rdata       (axil_cms_rdata      ),
+    //.m_axil_cms_rresp       (axil_cms_rresp      ),
+    //.m_axil_cms_rvalid      (axil_cms_rvalid     ),
+    //.m_axil_cms_rready      (axil_cms_rready     )
+      .m_axil_cms_clk         (                    ),
+      .m_axil_cms_rst         (                    ),
+      .m_axil_cms_awaddr      (                    ),
+      .m_axil_cms_awprot      (                    ),
+      .m_axil_cms_awvalid     (                    ),
+      .m_axil_cms_awready     (1'b0                ),
+      .m_axil_cms_wdata       (                    ),
+      .m_axil_cms_wstrb       (                    ),
+      .m_axil_cms_wvalid      (                    ),
+      .m_axil_cms_wready      (1'b0                ),
+      .m_axil_cms_bresp       (2'b0                ),
+      .m_axil_cms_bvalid      (1'b0                ),
+      .m_axil_cms_bready      (                    ),
+      .m_axil_cms_araddr      (                    ),
+      .m_axil_cms_arprot      (                    ),
+      .m_axil_cms_arvalid     (                    ),
+      .m_axil_cms_arready     (1'd0                ),
+      .m_axil_cms_rdata       (32'd0               ),
+      .m_axil_cms_rresp       (2'd0                ),
+      .m_axil_cms_rvalid      (1'd0                ),
+      .m_axil_cms_rready      (                    )
 );
 
 endmodule
