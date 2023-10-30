@@ -9,15 +9,16 @@ set_property PACKAGE_PIN AK10 [get_ports {pcie_ref_clk_n[0]}]
 set_property PACKAGE_PIN AK11 [get_ports {pcie_ref_clk_p[0]}] 
 create_clock -name pcie_sys_clk -period 10 [get_ports {pcie_ref_clk_p[0]}]
 
-set_property PACKAGE_PIN AR26 [get_ports pcie_perst]
-set_property IOSTANDARD LVCMOS12 [get_ports pcie_perst]
-set_false_path -from [get_ports {pcie_perst}]
-set_input_delay 0 [get_ports {pcie_perst}]
+set_property PACKAGE_PIN AR26    [get_ports pcie_perst]
+set_property IOSTANDARD LVCMOS18 [get_ports pcie_perst]
+set_property PULLUP     true     [get_ports pcie_perst]
+set_false_path -from             [get_ports pcie_perst]
+set_input_delay 0                [get_ports pcie_perst]
 
-set_property PACKAGE_PIN BD20 [get_ports pcie_lnk_up]
+set_property PACKAGE_PIN BD20    [get_ports pcie_lnk_up]
 set_property IOSTANDARD LVCMOS12 [get_ports pcie_lnk_up]
-set_false_path -from [get_ports {pcie_lnk_up}]
-set_input_delay 0 [get_ports {pcie_lnk_up}]
+set_false_path -from             [get_ports pcie_lnk_up]
+set_input_delay 0                [get_ports pcie_lnk_up]
 
 
 #=========================================================================

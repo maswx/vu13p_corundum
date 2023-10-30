@@ -1,6 +1,6 @@
 
-
+PWDX=`pwd`
 
 run:
 	cp -rf ALIVU13P ./corundum/fpga/mqnic/
-	cd ./corundum/fpga/mqnic/ALIVU13P && make
+	cd ${PWD}/corundum/fpga/mqnic/ALIVU13P 
