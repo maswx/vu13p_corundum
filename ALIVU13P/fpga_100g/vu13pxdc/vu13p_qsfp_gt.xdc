@@ -35,21 +35,12 @@ set_property  PACKAGE_PIN A5          [get_ports {up_qsfp_rxp[3]}       ]  ; # �
 set_property  PACKAGE_PIN A4          [get_ports {up_qsfp_rxn[3]}       ]  ; # 若使用8线MPO，对应 4 号线  rx_3 ; up_qsfp3_rx_n
 set_property  PACKAGE_PIN D11         [get_ports  up_qsfp_161p132_clk_p ]
 set_property  PACKAGE_PIN D10         [get_ports  up_qsfp_161p132_clk_n ]
-set_property  PACKAGE_PIN BC12        [get_ports {up_qsfp_i2c_sda}      ]
-set_property  PACKAGE_PIN BD8         [get_ports {up_qsfp_i2c_scl}      ]
-set_property  IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_i2c_sda}      ]
-set_property  IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_i2c_scl}      ]
-#set_property PACKAGE_PIN BA7         [get_ports {up_qsfp_resetl}       ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
-set_property PACKAGE_PIN BC7         [get_ports {up_qsfp_modprsl}      ] ; # input  ,检测模块是否存在
-set_property PACKAGE_PIN BC8         [get_ports {up_qsfp_intl}         ] ; # input  ,故障输出指示
-#set_property PACKAGE_PIN BB9         [get_ports {up_qsfp_lpmode}       ] ; # output ,低功耗模式，内部默 认上拉至 VCC
-#set_property IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_resetl}       ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
-set_property IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_modprsl}      ] ; # input  ,检测模块是否存在
-set_property IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_intl}         ] ; # input  ,故障输出指示
-#set_property IOSTANDARD  LVCMOS12    [get_ports {up_qsfp_lpmode}       ] ; # output ,低功耗模式，内部默 认上拉至 VCC
-#set_property PULLUP      true        [get_ports {up_qsfp_resetl}       ]
-#set_property PULLUP      true        [get_ports {up_qsfp_lpmode}       ]
- 
+set_property  -dict {LOC BD8   IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_i2c_scl}  ] ; # inout
+set_property  -dict {LOC BC12  IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_i2c_sda}  ] ; # inout
+set_property  -dict {LOC BC7   IOSTANDARD  LVCMOS12             }     [get_ports {dn_qsfp_modprsl}  ] ; # input  ,检测模块是否存在
+set_property  -dict {LOC BC8   IOSTANDARD  LVCMOS12             }     [get_ports {dn_qsfp_intl}     ] ; # input  ,故障输出指示
+set_property  -dict {LOC BA7   IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_resetl}   ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
+set_property  -dict {LOC BB9   IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_lpmode}   ] ; # output ,低功耗模式，内部默 认上拉至 VCC
  
 # 离PCIE金手指较近的dn通道选择 BANK 229 , 对应位置 X1Y36~Y39
 #
@@ -72,28 +63,32 @@ set_property  PACKAGE_PIN V2          [get_ports {dn_qsfp_rxp[3]}        ] ; # �
 set_property  PACKAGE_PIN V1          [get_ports {dn_qsfp_rxn[3]}        ] ; # 若使用8线MPO，对应 4 号线  rx_3
 set_property  PACKAGE_PIN Y11         [get_ports  dn_qsfp_161p132_clk_p  ]
 set_property  PACKAGE_PIN Y10         [get_ports  dn_qsfp_161p132_clk_n  ]
-set_property  PACKAGE_PIN BF12        [get_ports {dn_qsfp_i2c_sda}       ]
-set_property  PACKAGE_PIN BD9         [get_ports {dn_qsfp_i2c_scl}       ]
-set_property  IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_i2c_sda}       ]
-set_property  IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_i2c_scl}       ]
-#set_property PACKAGE_PIN BB10        [get_ports {dn_qsfp_resetl}        ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
-set_property PACKAGE_PIN BB11        [get_ports {dn_qsfp_modprsl}       ] ; # input  ,检测模块是否存在
-set_property PACKAGE_PIN BC11        [get_ports {dn_qsfp_intl}          ] ; # input  ,故障输出指示
-#set_property PACKAGE_PIN BB7         [get_ports {dn_qsfp_lpmode}        ] ; # output ,低功耗模式，内部默 认上拉至 VCC
-#set_property IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_resetl}        ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
-set_property IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_modprsl}       ] ; # input  ,检测模块是否存在
-set_property IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_intl}          ] ; # input  ,故障输出指示
-#set_property IOSTANDARD  LVCMOS12    [get_ports {dn_qsfp_lpmode}        ] ; # output ,低功耗模式，内部默 认上拉至 VCC
-#set_property PULLUP      true        [get_ports {dn_qsfp_resetl}        ]
-#set_property PULLUP      true        [get_ports {dn_qsfp_lpmode}        ]
-
-
-
+set_property  -dict {LOC BF12  IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_i2c_scl}  ] ; # inout
+set_property  -dict {LOC BD9   IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_i2c_sda}  ] ; # inout
+set_property  -dict {LOC BB11  IOSTANDARD  LVCMOS12             }     [get_ports {dn_qsfp_modprsl}  ] ; # input  ,检测模块是否存在
+set_property  -dict {LOC BC11  IOSTANDARD  LVCMOS12             }     [get_ports {dn_qsfp_intl}     ] ; # input  ,故障输出指示
+set_property  -dict {LOC BB10  IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_resetl}   ] ; # output ,信号拉低会启动完 整模块复位，默认内 部将其上拉至 VCC
+set_property  -dict {LOC BB7   IOSTANDARD  LVCMOS12 PULLUP true }     [get_ports {dn_qsfp_lpmode}   ] ; # output ,低功耗模式，内部默 认上拉至 VCC
 
 create_clock -period 6.206 -name qsfp1_mgt_refclk_0 [get_ports dn_qsfp_161p132_clk_p  ]
 create_clock -period 6.206 -name qsfp1_mgt_refclk_1 [get_ports up_qsfp_161p132_clk_p  ]
 
-
+#set_false_path -to               [get_ports dn_qsfp_i2c_scl]
+#set_false_path -to               [get_ports dn_qsfp_i2c_sda]
+#set_false_path -to               [get_ports dn_qsfp_resetl ]
+#set_false_path -to               [get_ports dn_qsfp_lpmode ]
+#set_false_path -from             [get_ports dn_qsfp_i2c_scl]
+#set_false_path -from             [get_ports dn_qsfp_i2c_sda]
+#set_false_path -from             [get_ports dn_qsfp_modprsl]
+#set_false_path -from             [get_ports dn_qsfp_intl   ]
+#set_output_delay 0               [get_ports dn_qsfp_i2c_scl]
+#set_output_delay 0               [get_ports dn_qsfp_i2c_sda]
+#set_output_delay 0               [get_ports dn_qsfp_resetl ]
+#set_output_delay 0               [get_ports dn_qsfp_lpmode ]
+#set_input_delay 0                [get_ports dn_qsfp_i2c_scl]
+#set_input_delay 0                [get_ports dn_qsfp_i2c_sda]
+#set_input_delay 0                [get_ports dn_qsfp_modprsl]
+#set_input_delay 0                [get_ports dn_qsfp_intl   ]
 
 
 
