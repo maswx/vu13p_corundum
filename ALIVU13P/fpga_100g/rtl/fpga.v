@@ -167,8 +167,8 @@ module fpga #
     input  wire [15:0]  pcie_lane_rxn,
     output wire [15:0]  pcie_lane_txp,
     output wire [15:0]  pcie_lane_txn,
-    input  wire         pcie_ref_clk_p,
-    input  wire         pcie_ref_clk_n,
+    input  wire [0:0]   pcie_ref_clk_p,
+    input  wire [0:0]   pcie_ref_clk_n,
     input  wire         pcie_perst    ,
 	output wire         pcie_lnk_up   ,
 
